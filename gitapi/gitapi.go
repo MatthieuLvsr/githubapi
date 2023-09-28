@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"sync"
 
 	"github.com/MatthieuLvsr/githubapi/models"
@@ -12,7 +13,8 @@ import (
 
 var API_KEY string
 var GIT_USER string
-var REPOS_PER_PAGE string
+var REPOS_PER_PAGE int
+var ORG_MODE bool
 
 func Setup() {
 	key,ok := os.LookupEnv("GITHUB_KEY")
@@ -27,12 +29,26 @@ func Setup() {
 	if !ok {
 		log.Fatal("Per_page not found")
 	}
+	int_per_page, err := strconv.Atoi(per_page)
+	if err != nil{
+		log.Fatal(err)
+	}
+	org_mode,ok := os.LookupEnv("ORG_MODE")
+	if !ok {
+		log.Fatal("Org_mode not found")
+	}
+	bool_org_mode, err := strconv.ParseBool(org_mode)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println("Key setup : ",key)
 	fmt.Println("User setup : ",user)
-	fmt.Println("Per_page setup : ",per_page)
+	fmt.Println("Per_page setup : ",int_per_page)
+	fmt.Println("Org_mode setup : ",bool_org_mode)
 	API_KEY = key
 	GIT_USER = user
-	REPOS_PER_PAGE = per_page
+	REPOS_PER_PAGE = int_per_page
+	ORG_MODE = bool_org_mode
 }
 
 func Clone(repos []models.Repos){
