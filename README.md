@@ -12,10 +12,12 @@ Ce projet est une Dapp (Application décentralisée) en Go qui permet de gérer 
 Pour exécuter cette Dapp, suivez les étapes suivantes :
 
 1. Créez un fichier `.env` à la racine du projet avec les informations suivantes :
+```bash
 GITHUB_KEY=YOUR_GITHUB_API_KEY
 GITHUB_USER=YOUR_TARGET
 ORG_MODE=MODE_ORGANISATION (TRUE OR FALSE)
 REPOS_PER_PAGE=NOMBRE_DE_REPOS_SOUHAITES
+```
 
 2. Exécutez le projet en utilisant Docker Compose :
 ```bash
