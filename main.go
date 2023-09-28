@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/MatthieuLvsr/githubapi/csvmaker"
 	"github.com/MatthieuLvsr/githubapi/gitapi"
 	"github.com/MatthieuLvsr/githubapi/requester"
 )
@@ -10,5 +9,7 @@ import (
 func main() {
 	gitapi.Setup()
 	result := requester.Request()
-	fmt.Println(requester.ParseRepos(result))
+	repos := requester.ParseRepos(result)
+	gitapi.Clone(repos)
+	csvmaker.Record(repos)
 }
