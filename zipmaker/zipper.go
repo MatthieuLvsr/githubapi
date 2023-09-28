@@ -22,12 +22,18 @@ func ZipDirectory(source, target string) error{
 			return err
 		}
 
+		relPath, err := filepath.Rel(source, path)
+		if err != nil {
+			return err
+		}
+
 		header, err := zip.FileInfoHeader(info)
 		if err != nil {
 			return err
 		}
 
-		header.Name = filepath.Join(source, path)
+		// header.Name = filepath.Join(source, path)
+		header.Name = relPath
 		if info.IsDir(){
 			header.Name += "/"
 		} else {
@@ -39,17 +45,16 @@ func ZipDirectory(source, target string) error{
 			return err
 		}
 
-		if info.IsDir(){
-			return nil
-		}
-
-		f, err := os.Open(path)
-		if err != nil {
+		if !info.IsDir(){
+			f, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			defer f.Close()
+	
+			_, err = io.Copy(headerWriter, f)
 			return err
 		}
-		defer f.Close()
-
-		_, err = io.Copy(headerWriter, f)
 		return err
 	})
 }
