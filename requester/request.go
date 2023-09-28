@@ -22,8 +22,11 @@ func ParseRepos(body []byte) []models.Repos {
 
 func Request()[]byte{
 	client := &http.Client{}
-	
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/users/%s/repos",gitapi.GIT_USER), nil)
+	mode := "users"
+	if gitapi.ORG_MODE {
+		mode = "orgs"
+	}
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/%s/%s/repos?per_page=%d",mode,gitapi.GIT_USER,gitapi.REPOS_PER_PAGE), nil)
 	if err != nil {
 		log.Fatal(err)
 	}
