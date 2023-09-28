@@ -12,5 +12,6 @@ services:
       - .env
     volumes:
       - "./logs:/go/app/logs" # Pour linker les dossiers
+      - "./repos:/go/app/repos" # Pour linker les dossiers
     ports:
       - "8081:8081"

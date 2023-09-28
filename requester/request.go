@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sort"
+	"time"
 
 	"github.com/MatthieuLvsr/githubapi/gitapi"
 	"github.com/MatthieuLvsr/githubapi/models"
@@ -17,6 +19,7 @@ func ParseRepos(body []byte) []models.Repos {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// return sortRepos(result)
 	return result
 }
 
@@ -43,4 +46,16 @@ func Request()[]byte{
 		log.Fatal(err)
 	}
 	return body
+}
+
+func sortRepos(repos []models.Repos)[]models.Repos{
+	sort.Slice(repos, func(i, j int) bool {
+        timeI, errI := time.Parse(time.RFC3339, repos[i].CreatedAt)
+        timeJ, errJ := time.Parse(time.RFC3339, repos[j].CreatedAt)
+        if errI != nil || errJ != nil {
+            return false
+        }
+        return timeI.After(timeJ)
+    })
+	return repos
 }

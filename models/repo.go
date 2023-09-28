@@ -1,13 +1,23 @@
 package models
 
 type Repos struct {
-	Id int `json: "id"`
+	// Id int `json: "id"`
 	Name string `json: "name"`
 	Html_url string `json: "html_url"`
 	Description string `json: "description"`
-	Fork bool `json: "fork"`
-	Created_at string `json: "created_at"`
-	Updated_at string `json: "updated_at"`
+	// Fork bool `json: "fork"`
+	CreatedAt string `json: "created_at"`
+	UpdatedAt string `json: "updated_at"`
+}
+
+func Tostring(repo Repos)[]string{
+	var str []string
+	str = append(str, repo.Name)
+	str = append(str, repo.Html_url)
+	str = append(str, repo.Description)
+	str = append(str, repo.CreatedAt)
+	str = append(str, repo.UpdatedAt)
+	return str
 }
 
 // "id": 635232145,
