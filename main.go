@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/MatthieuLvsr/githubapi/gitapi"
+	"github.com/MatthieuLvsr/githubapi/requester"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	gitapi.Setup()
+	result := requester.Request()
+	fmt.Println(requester.ParseRepos(result))
 }
